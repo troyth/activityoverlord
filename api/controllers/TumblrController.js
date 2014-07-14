@@ -18,6 +18,7 @@
 
 var tumblr = require('tumblr.js'),
     passport = require('passport'),
+    util = require('util'),
     TumblrStrategy = require('passport-tumblr').Strategy;
 
 
