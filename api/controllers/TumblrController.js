@@ -75,16 +75,19 @@ module.exports = {
 
 
       client.userInfo(function (err, data) {
-        data.blogs.forEach(function (blog) {
-            console.log(blog.name);
-        });
+        if(err){
+          console.log(err);
+        }else{
+          data.blogs.forEach(function (blog) {
+              console.log(blog.name);
+          });
 
-        res.view({
-          tumblr: tumblr,
-          blog: data.blogs[0]
-        });
+          res.view({
+            tumblr: tumblr,
+            blog: data.blogs[0]
+          });
+        }
       });
-
     });
   },
 
