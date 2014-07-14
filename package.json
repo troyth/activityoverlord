@@ -11,7 +11,9 @@
     "optimist": "0.3.4",
     "bcrypt": "~0.7.6",
     "sails-mongo": "~0.9.4",
-    "tumblr.js": "*"
+    "tumblr.js": "*",
+    "passport": "*",
+    "passport-tumblr": "*"
   },
   "scripts": {
     "start": "node app.js",
