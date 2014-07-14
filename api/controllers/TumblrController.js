@@ -16,15 +16,15 @@
  */
 
 
-var tumblr = require('tumblr.js');
+var tumblr = require('tumblr.js'),
+    passport = require('passport'),
+    TumblrStrategy = require('passport-tumblr').Strategy;
 
-var client = tumblr.createClient({
-  consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
-  consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
-  token: '',
-  token_secret: ''
-});
 
+var client;
+
+var TUMBLR_CONSUMER_KEY = 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
+    TUMBLR_CONSUMER_SECRET = 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29';
 
 module.exports = {
 
@@ -41,29 +41,48 @@ module.exports = {
       hostname: req.param('hostname')
     }
 
-    // Track a Tumblr with the params sent from
-    // the sign-up form --> new.ejs
-    Tumblr.create(tumblrObj, function tumblrCreated(err, tumblr) {
 
-      // // If there's an error
-      // if (err) return next(err);
+    passport.use(new TumblrStrategy({
+      consumerKey: TUMBLR_CONSUMER_KEY,
+      consumerSecret: TUMBLR_CONSUMER_SECRET,
+      callbackURL: "http://analytics.theenergyissue.com/auth/tumblr/callback"
+    },
+    function(token, tokenSecret, profile, done) {
+      tumblr.createClient({
+        consumer_key: TUMBLR_CONSUMER_KEY,
+        consumer_secret: TUMBLR_CONSUMER_SECRET,
+        token: token,
+        token_secret: tokenSecret
+      });
 
-      if (err) {
-        console.log(err);
-        req.session.flash = {
-          err: err
+      // Track a Tumblr with the params sent from
+      // the sign-up form --> new.ejs
+      Tumblr.create(tumblrObj, function tumblrCreated(err, tumblr) {
+
+        // // If there's an error
+        // if (err) return next(err);
+
+        if (err) {
+          console.log(err);
+          req.session.flash = {
+            err: err
+          }
+
+          // If error redirect back to sign-up page
+          return res.redirect('/tumblr/new');
         }
 
-        // If error redirect back to sign-up page
-        return res.redirect('/tumblr/new');
-      }
+        // After successfully creating the user
+        // redirect to the show action
+        // From ep1-6: //res.json(user);
 
-      // After successfully creating the user
-      // redirect to the show action
-      // From ep1-6: //res.json(user);
+        res.redirect('/tumblr/show/' + tumblr.id);
+      });
 
-      res.redirect('/tumblr/show/' + tumblr.id);
-    });
+
+    }));
+
+
   },
 
 
