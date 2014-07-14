@@ -27,7 +27,7 @@ module.exports = {
     console.log('create tumblr with hostname: ' + req.param('hostname'));
 
     var tumblrObj = {
-      name: req.param('hostname')
+      hostname: req.param('hostname')
     }
 
     // Track a Tumblr with the params sent from
