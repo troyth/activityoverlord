@@ -45,9 +45,6 @@ module.exports = {
         return res.redirect('/tumblr/new');
       }
 
-      // Let other subscribed sockets know that the tumblr is being tracked.
-      User.publishCreate(tumblr);
-
       // After successfully creating the user
       // redirect to the show action
       // From ep1-6: //res.json(user);
