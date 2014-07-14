@@ -12,10 +12,10 @@ module.exports = {
 
   attributes: {
 
-    name: {
+    hostname: {
      type: 'string',
      required: true
-     },
+    },
 
 
 
