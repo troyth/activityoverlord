@@ -22,6 +22,9 @@ module.exports = {
 
 		local.tumblr = tumblr;
 
+		console.log('local:');
+		console.dir(local);
+
 
 		res.view('session/new');
 	},
