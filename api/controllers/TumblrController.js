@@ -41,7 +41,9 @@ module.exports = {
       hostname: req.param('hostname')
     }
 
+    passport.authenticate('tumblr');
 
+/*
     passport.use(new TumblrStrategy({
       consumerKey: TUMBLR_CONSUMER_KEY,
       consumerSecret: TUMBLR_CONSUMER_SECRET,
@@ -83,7 +85,7 @@ module.exports = {
 
 
     }));
-
+*/
 
   },
 
