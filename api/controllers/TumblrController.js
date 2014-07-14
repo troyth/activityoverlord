@@ -51,6 +51,9 @@ module.exports = {
       // redirect to the show action
       // From ep1-6: //res.json(user);
 
+      local.test = 'test';
+
+
       res.redirect('/tumblr/show/' + tumblr.id);
     });
   },
@@ -61,6 +64,10 @@ module.exports = {
     Tumblr.findOne(req.param('id'), function foundTumblr(err, tumblr) {
       if (err) return next(err);
       if (!tumblr) return next();
+
+        console.log('local:');
+        console.dir(local);
+
       res.view({
         tumblr: tumblr
       });
