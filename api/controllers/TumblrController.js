@@ -64,7 +64,7 @@ module.exports = {
 
     passport.authenticate('tumblr');
 
-
+    console.log('pass.auth() should have been called');
   },
 
 
