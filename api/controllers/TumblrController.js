@@ -16,15 +16,29 @@
  */
 
 module.exports = {
-    
-  
+
+
 
 
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to TumblrController)
    */
-  _config: {}
+  _config: {},
 
-  
+
+
+
+  // render the profile view (e.g. /views/show.ejs)
+  show: function(req, res, next) {
+    Tumblr.findOne(req.param('id'), function foundTumblr(err, tumblr) {
+      if (err) return next(err);
+      if (!tumblr) return next();
+      res.view({
+        tumblr: tumblr
+      });
+    });
+  },
+
+
 };
