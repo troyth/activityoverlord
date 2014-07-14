@@ -51,7 +51,7 @@ module.exports = {
       // redirect to the show action
       // From ep1-6: //res.json(user);
 
-      local.test = 'test';
+      locals.test = 'test';
 
 
       res.redirect('/tumblr/show/' + tumblr.id);
@@ -66,7 +66,7 @@ module.exports = {
       if (!tumblr) return next();
 
         console.log('local:');
-        console.dir(local);
+        console.dir(locals);
 
       res.view({
         tumblr: tumblr
