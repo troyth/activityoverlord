@@ -17,16 +17,44 @@
 
 module.exports = {
 
+  // This loads the track new blog page --> new.ejs
+  'new': function(req, res) {
+    res.view();
+  },
 
+  create: function(req, res, next) {
 
+    var tumblrObj = {
+      name: req.param('hostname')
+    }
 
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to TumblrController)
-   */
-  _config: {},
+    // Track a Tumblr with the params sent from
+    // the sign-up form --> new.ejs
+    Tumblr.create(tumblrObj, function tumblrCreated(err, tumblr) {
 
+      // // If there's an error
+      // if (err) return next(err);
 
+      if (err) {
+        console.log(err);
+        req.session.flash = {
+          err: err
+        }
+
+        // If error redirect back to sign-up page
+        return res.redirect('/tumblr/new');
+      }
+
+      // Let other subscribed sockets know that the tumblr is being tracked.
+      User.publishCreate(tumblr);
+
+      // After successfully creating the user
+      // redirect to the show action
+      // From ep1-6: //res.json(user);
+
+      res.redirect('/tumblr/show/' + tumblr.id);
+    });
+  },
 
 
   // render the profile view (e.g. /views/show.ejs)
