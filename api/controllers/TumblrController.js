@@ -24,6 +24,8 @@ module.exports = {
 
   create: function(req, res, next) {
 
+    console.log('create tumblr with hostname: ' + req.param('hostname'));
+
     var tumblrObj = {
       name: req.param('hostname')
     }

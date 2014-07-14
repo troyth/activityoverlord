@@ -15,7 +15,7 @@ module.exports = {
     hostname: {
      type: 'string',
      required: true
-    },
+    }
 
 
 
