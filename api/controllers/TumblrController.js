@@ -15,6 +15,17 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+
+var tumblr = require('tumblr.js');
+
+var client = tumblr.createClient({
+  consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
+  consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
+  token: '',
+  token_secret: ''
+});
+
+
 module.exports = {
 
   // This loads the track new blog page --> new.ejs
@@ -51,9 +62,6 @@ module.exports = {
       // redirect to the show action
       // From ep1-6: //res.json(user);
 
-      locals.test = 'test';
-
-
       res.redirect('/tumblr/show/' + tumblr.id);
     });
   },
@@ -65,12 +73,18 @@ module.exports = {
       if (err) return next(err);
       if (!tumblr) return next();
 
-        console.log('local:');
-        console.dir(locals);
 
-      res.view({
-        tumblr: tumblr
+      client.userInfo(function (err, data) {
+        data.blogs.forEach(function (blog) {
+            console.log(blog.name);
+        });
+
+        res.view({
+          tumblr: tumblr,
+          blog: data.blogs[0]
+        });
       });
+
     });
   },
 

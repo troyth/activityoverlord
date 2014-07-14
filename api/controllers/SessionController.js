@@ -10,22 +10,6 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
 	'new': function(req, res) {
-
-		var tumblr = require('tumblr.js');
-
-		var client = tumblr.createClient({
-			consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
-			consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
-			token: '',
-			token_secret: ''
-		});
-
-		local.tumblr = tumblr;
-
-		console.log('local:');
-		console.dir(local);
-
-
 		res.view('session/new');
 	},
 
