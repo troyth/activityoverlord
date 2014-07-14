@@ -48,6 +48,8 @@ module.exports = {
       callbackURL: "http://analytics.theenergyissue.com/auth/tumblr/callback"
     },
     function(token, tokenSecret, profile, done) {
+      console.log('callback');
+
       tumblr.createClient({
         consumer_key: TUMBLR_CONSUMER_KEY,
         consumer_secret: TUMBLR_CONSUMER_SECRET,
