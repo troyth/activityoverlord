@@ -26,6 +26,27 @@ var client;
 var TUMBLR_CONSUMER_KEY = 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
     TUMBLR_CONSUMER_SECRET = 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29';
 
+
+passport.use(new TumblrStrategy({
+  consumerKey: TUMBLR_CONSUMER_KEY,
+  consumerSecret: TUMBLR_CONSUMER_SECRET,
+  callbackURL: "http://analytics.theenergyissue.com/tumblr/authcallback"
+},
+function(token, tokenSecret, profile, done) {
+  console.log('callback');
+
+  tumblr.createClient({
+    consumer_key: TUMBLR_CONSUMER_KEY,
+    consumer_secret: TUMBLR_CONSUMER_SECRET,
+    token: token,
+    token_secret: tokenSecret
+  });
+
+  console.log('testing callback finished');
+
+
+}));
+
 module.exports = {
 
   // This loads the track new blog page --> new.ejs
@@ -43,49 +64,6 @@ module.exports = {
 
     passport.authenticate('tumblr');
 
-/*
-    passport.use(new TumblrStrategy({
-      consumerKey: TUMBLR_CONSUMER_KEY,
-      consumerSecret: TUMBLR_CONSUMER_SECRET,
-      callbackURL: "http://analytics.theenergyissue.com/auth/tumblr/callback"
-    },
-    function(token, tokenSecret, profile, done) {
-      console.log('callback');
-
-      tumblr.createClient({
-        consumer_key: TUMBLR_CONSUMER_KEY,
-        consumer_secret: TUMBLR_CONSUMER_SECRET,
-        token: token,
-        token_secret: tokenSecret
-      });
-
-      // Track a Tumblr with the params sent from
-      // the sign-up form --> new.ejs
-      Tumblr.create(tumblrObj, function tumblrCreated(err, tumblr) {
-
-        // // If there's an error
-        // if (err) return next(err);
-
-        if (err) {
-          console.log(err);
-          req.session.flash = {
-            err: err
-          }
-
-          // If error redirect back to sign-up page
-          return res.redirect('/tumblr/new');
-        }
-
-        // After successfully creating the user
-        // redirect to the show action
-        // From ep1-6: //res.json(user);
-
-        res.redirect('/tumblr/show/' + tumblr.id);
-      });
-
-
-    }));
-*/
 
   },
 
@@ -106,13 +84,20 @@ module.exports = {
           });
 
           res.view({
-            tumblr: tumblr,
-            blog: data.blogs[0]
+            tumblr: tumblr
           });
         }
       });
     });
   },
+
+  authcallback: function(req, res, next){
+    console.log('authcallback()');
+
+    passport.authenticate('tumblr', { failureRedirect: '/tumblr/new' });
+
+    res.view();
+  }
 
 
 };
