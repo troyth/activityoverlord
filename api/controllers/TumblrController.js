@@ -63,9 +63,16 @@ module.exports = {
       hostname: req.param('hostname')
     }
 
-    passport.authenticate('tumblr');
+    res.redirect('/tumblr/auth');
 
     console.log('pass.auth() should have been called');
+  },
+
+  auth: function(req, res, next){
+
+    console.log('redirected');
+
+    passport.authenticate('tumblr');
   },
 
 
