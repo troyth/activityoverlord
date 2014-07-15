@@ -101,7 +101,7 @@ function updateAllFollowers(offset){
   tumblrClient.followers('theenergyissue', options, function (err, data) {
 
     if(data.total_users > (data.users.length + offset)){
-      updateFollower(data.users, 0, offset, total, updateAllFollowers);
+      updateFollower(data.users, 0, offset, data.users.length, updateAllFollowers);
     }
 
 
