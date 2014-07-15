@@ -125,7 +125,7 @@ function updateAllFollowers(res, offset){
   tumblrClient.followers('theenergyissue', options, function (err, data) {
 
     if(data.total_users > (data.users.length + offset)){
-      updateFollower(res, data.users, 0, offset, data.users.length, updateAllFollowers);
+      updateFollower(res, data.users, 0, offset, data.total_users, updateAllFollowers);
     }
 
   });
