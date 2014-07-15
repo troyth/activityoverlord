@@ -25,16 +25,18 @@ module.exports = {
     },
     following: {
       type: 'BOOLEAN'
+    },
+    timestame: {
+      type: 'TIME'
     }
   },
 
-  beforeUpdate: function(values, cb){
-    console.log('\n\n*******beforeUpdate');
-    if(values.createdAt && typeof value.createdAt === 'string'){
-      console.log('converting string date*******\n\n');
-      values.createdAt = new Date(Date.parse(values.createdAt));
-    }
-    return cb();
+  beforeUpdate: function(values, next){
+
+    values.timestamp = new Date(values.createdAt).getTime();
+    console.log('\n\n*******timestamp: '+ values.timestamp);
+
+    return next();
   }
 
 
