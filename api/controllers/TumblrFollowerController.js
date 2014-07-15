@@ -64,6 +64,7 @@ function updateFollower(res, users, index, offset, total, next){
               }
             }else{
               console.log('RETURNING 200');
+              next(res, offset);
               res.send(200);
             }
           }
@@ -91,6 +92,7 @@ function updateFollower(res, users, index, offset, total, next){
                 next(res, offset);
               }
             }else{
+              next(res, offset);
               console.log('RETURNING 200');
               res.send(200);
             }
