@@ -20,7 +20,7 @@ var FOLLOWER_API_LIMIT = 20;
 
 // function set up to do async recursion on adding new tumblr followers
 // param: user returned from the tumblr API call
-function updateFollower(users, index, offset, total, next){
+function updateFollower(res, users, index, offset, total, next){
   var user = users[index];
 
   TumblrFollower.findOne({ name: user.name }).done(function(err, u){
@@ -53,7 +53,7 @@ function updateFollower(users, index, offset, total, next){
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
-                next(offset);
+                next(res, offset);
               }
             }else{
               res.send(200);
@@ -78,7 +78,7 @@ function updateFollower(users, index, offset, total, next){
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
-                next(offset);
+                next(res, offset);
               }
             }else{
               res.send(200);
@@ -91,7 +91,7 @@ function updateFollower(users, index, offset, total, next){
 
 };
 
-function updateAllFollowers(offset){
+function updateAllFollowers(res, offset){
 
   var options = {
     limit: FOLLOWER_API_LIMIT,
@@ -101,7 +101,7 @@ function updateAllFollowers(offset){
   tumblrClient.followers('theenergyissue', options, function (err, data) {
 
     if(data.total_users > (data.users.length + offset)){
-      updateFollower(data.users, 0, offset, data.users.length, updateAllFollowers);
+      updateFollower(res, data.users, 0, offset, data.users.length, updateAllFollowers);
     }
 
 
