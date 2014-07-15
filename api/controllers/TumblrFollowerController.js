@@ -31,7 +31,7 @@ function updateFollower(users, index, next){
       var fetchedUserObj = {
         name: user.name,
         url: user.url,
-        updated: user.updated,
+        updated: parseInt(user.updated),
         following: user.following
       };
 
@@ -53,6 +53,7 @@ function updateFollower(users, index, next){
           if(err){
             console.log('error trying to create TumblrFollower: '+ err);
             console.dir(err);
+            console.dir(err.ValidationError.updated);
           }
 
 
