@@ -41,11 +41,21 @@ function updateFollower(users, index, next){
       if(typeof u != 'undefined'){
         // already in DB, so update it
         TumblrFollower.update(u.id, fetchedUserObj, function followerUpdated(err) {
-          if (err) {
-            return res.redirect('/user/edit/' + req.param('id'));
+          if(err){
+            console.log('error trying to create TumblrFollower: '+ err);
+            console.dir(err);
+            console.dir(err.ValidationError.updated);
           }
 
-          res.redirect('/user/show/' + req.param('id'));
+
+          index++;
+          if(users.length > index){
+            updateFollower(users, index, next);
+          }else{
+            if(typeof next != 'undefined'){
+              next();
+            }
+          }
         });
       }else{
         // not already in DB, so add it
