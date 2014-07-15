@@ -31,7 +31,7 @@ function updateFollower(users, index, next){
       var fetchedUserObj = {
         name: user.name,
         url: user.url,
-        updated: parseInt(user.updated),
+        updated: user.updated,
         following: user.following
       };
 

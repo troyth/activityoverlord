@@ -21,7 +21,7 @@ module.exports = {
       required: true
     },
     updated: {
-      type: 'NUMBER'
+      type: 'STRING'
     },
     following: {
       type: 'BOOLEAN'
