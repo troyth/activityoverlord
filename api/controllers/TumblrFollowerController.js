@@ -15,6 +15,53 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+
+// function set up to do async recursion on adding new tumblr followers
+// param: user returned from the tumblr API call
+function updateFollower(users, index, next){
+  var user = users[index];
+
+  TumblrFollower.findOne({ name: user.name }).done(function(err, u){
+    if(err) {
+      console.log('error in findOne: ' + err);
+    }else{
+      console.log('\nu:');
+      console.dir(u);
+
+      var fetchedUserObj = {
+        name: user.name,
+        url: user.url,
+        updated: user.updated,
+        following: user.following
+      };
+
+      if(typeof u != 'undefined'){
+        // already in DB, so update it
+        TumblrFollower.update(u.id, fetchedUserObj, function followerUpdated(err) {
+          if (err) {
+            return res.redirect('/user/edit/' + req.param('id'));
+          }
+
+          res.redirect('/user/show/' + req.param('id'));
+        });
+      }else{
+        // not already in DB, so add it
+        TumblrFollower.create(fetchedUserObj, function userCreated(err, newUser) {
+          if(err) console.log('error trying to create TumblrFollower: '+ err);
+
+          index++;
+          if(users.length > index){
+            updateFollower(users, index, next);
+          }else{
+            next();
+          }
+        });
+      }
+    }
+  });
+
+};
+
 var tumblrFollowerController = {
 
   'index': function(req, res){
@@ -59,18 +106,7 @@ var tumblrFollowerController = {
       var followers = data.total_users;
 
 
-      _.each(data.users, function(user){
-
-        TumblrFollower.findOne({ name: user.name }).done(function(err, u){
-          if(err) {
-            console.log('error in findOne: ' + err);
-          }else{
-            console.log('\nu:');
-            console.dir(u);
-          }
-        });
-
-      });
+      updateFollower(data.users, 0, null);
 
 
 
