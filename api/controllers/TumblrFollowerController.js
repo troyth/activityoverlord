@@ -35,6 +35,9 @@ function updateFollower(users, index, next){
         following: user.following
       };
 
+      console.log('fetchedUserObj:');
+      console.dir(fetchedUserObj);
+
       if(typeof u != 'undefined'){
         // already in DB, so update it
         TumblrFollower.update(u.id, fetchedUserObj, function followerUpdated(err) {
