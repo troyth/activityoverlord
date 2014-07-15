@@ -136,7 +136,7 @@ var tumblrFollowerController = {
 
   'index': function(req, res){
 
-    TumblrFollow.find().done(function totalFollowers(err, followers){
+    TumblrFollower.find().done(function totalFollowers(err, followers){
 
       res.view({ followers: followers })
 
