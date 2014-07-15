@@ -15,10 +15,12 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var tumblrClient;
+var FOLLOWER_API_LIMIT = 20;
 
 // function set up to do async recursion on adding new tumblr followers
 // param: user returned from the tumblr API call
-function updateFollower(users, index, next){
+function updateFollower(users, index, offset, total, next){
   var user = users[index];
 
   TumblrFollower.findOne({ name: user.name }).done(function(err, u){
@@ -35,25 +37,26 @@ function updateFollower(users, index, next){
         following: user.following
       };
 
-      console.log('fetchedUserObj:');
-      console.dir(fetchedUserObj);
-
       if(typeof u != 'undefined'){
         // already in DB, so update it
         TumblrFollower.update(u.id, fetchedUserObj, function followerUpdated(err) {
           if(err){
-            console.log('error trying to create TumblrFollower: '+ err);
+            console.log('error trying to create TumblrFollower: ');
             console.dir(err);
-            console.dir(err.ValidationError.updated);
           }
-
 
           index++;
           if(users.length > index){
-            updateFollower(users, index, next);
+            updateFollower(users, index, offset, total, next);
           }else{
-            if(typeof next != 'undefined'){
-              next();
+            // if still more to fetch, keep going
+            if( (offset + users.length) < total ){
+              offset = offset + FOLLOWER_API_LIMIT;
+              if(typeof next != 'undefined'){
+                next(offset);
+              }
+            }else{
+              res.send(200);
             }
           }
         });
@@ -69,15 +72,43 @@ function updateFollower(users, index, next){
 
           index++;
           if(users.length > index){
-            updateFollower(users, index, next);
+            updateFollower(users, index, offset, total, next);
           }else{
-            if(typeof next != 'undefined'){
-              next();
+            // if still more to fetch, keep going
+            if( (offset + users.length) < total ){
+              offset = offset + FOLLOWER_API_LIMIT;
+              if(typeof next != 'undefined'){
+                next(offset);
+              }
+            }else{
+              res.send(200);
             }
           }
         });
       }
     }
+  });
+
+};
+
+function updateAllFollowers(offset){
+
+  var options = {
+    limit: FOLLOWER_API_LIMIT,
+    offset: offset || 0
+  };
+
+  tumblrClient.followers('theenergyissue', options, function (err, data) {
+
+    if(data.total_users > (data.users.length + offset)){
+      updateFollower(data.users, 0, offset, total, updateAllFollowers);
+    }
+
+
+
+
+
+
   });
 
 };
@@ -88,7 +119,7 @@ var tumblrFollowerController = {
 
     var tumblr = require('tumblr.js');
 
-    var tumblrClient = tumblr.createClient({
+    tumblrClient = tumblr.createClient({
       consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
       consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
       token: 'dMwGcfLnaQ41Cb6GDQOD0CCZdEr82p5lvAbR2ltnDMl7rRS1Gs',
@@ -112,26 +143,14 @@ var tumblrFollowerController = {
 
     var tumblr = require('tumblr.js');
 
-    var tumblrClient = tumblr.createClient({
+    tumblrClient = tumblr.createClient({
       consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
       consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
       token: 'dMwGcfLnaQ41Cb6GDQOD0CCZdEr82p5lvAbR2ltnDMl7rRS1Gs',
       token_secret: 'VkQrDv7EBPAwCwPLCC4G6nK0yATmCeuV4TBNBrymdi3OEztXNv'
     });
 
-    tumblrClient.followers('theenergyissue', function (err, data) {
-      console.log('total followers:');
-      console.dir(data.total_users);
-
-      var followers = data.total_users;
-
-
-      updateFollower(data.users, 0);
-
-
-
-      res.send(200);
-    });
+    updateAllFollowers(20, 0);
 
 
   }
