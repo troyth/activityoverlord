@@ -28,8 +28,10 @@ module.exports = {
     },
 
     beforeUpdate: function(values, cb){
+      console.log('\n\n*******beforeUpdate');
       if(values.createdAt && typeof value.createdAt === 'string'){
-          values.createdAt = new Date(Date.parse(values.createdAt));
+        console.log('converting string date*******\n\n');
+        values.createdAt = new Date(Date.parse(values.createdAt));
       }
       return cb();
     }
