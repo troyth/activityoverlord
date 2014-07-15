@@ -1,2 +1,30 @@
 
     <p>Tumblr followers <%= followers.length %></p>
+
+
+<div class="container">
+  <h3>Tumblr Followers</h3>
+  <table class='table'>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>URL</th>
+      <th>Following</th>
+      <th></th>
+    </tr>
+
+
+    <% _.each(followers, function(follower) { %>
+    <tr data-id="<%= follower.id %>" data-model="follower">
+      <td><%= follower.id %></td>
+      <td><%= follower.name %></td>
+      <td><%= follower.url %></td>
+      <td><%= follower.following %></td>
+
+      <td><a href="/tumblrfollower/follow/<%= follower.id %>" class="btn btn-sm btn-primary">Follow</a></td>
+
+    </tr>
+
+    <% }) %>
+  </table>
+</div>
