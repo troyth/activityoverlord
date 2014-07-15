@@ -134,7 +134,7 @@ function updateAllFollowers(res, offset){
 
 var tumblrFollowerController = {
 
-  'index': function(req, res){
+  index: function(req, res){
 
     TumblrFollower.find().done(function totalFollowers(err, followers){
 
