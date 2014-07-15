@@ -26,8 +26,12 @@ module.exports = {
     following: {
       type: 'BOOLEAN'
     },
-    followedAt: {
-      type: 'DATE'
+
+    beforeUpdate: function(values, cb){
+      if(values.createdAt && typeof value.createdAt === 'string'){
+          values.createdAt = new Date(Date.parse(values.createdAt));
+      }
+      return cb();
     }
 
   }
