@@ -8,12 +8,25 @@
 
 module.exports = {
 
+  schema: true,
+
   attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
+
+  	name: {
+      type: 'STRING',
+      required: true
+    },
+    url: {
+      type: 'STRING',
+      required: true
+    },
+    updated: {
+      type: 'NUMBER'
+    },
+    following: {
+      type: 'BOOLEAN'
+    }
+
   }
 
 };
