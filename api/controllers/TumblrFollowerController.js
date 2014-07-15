@@ -136,7 +136,7 @@ var tumblrFollowerController = {
 
   index: function(req, res){
 
-    TumblrFollower.find().done(function totalFollowers(err, followers){
+    TumblrFollower.find().sort('createdAt DSC').done(function totalFollowers(err, followers){
       var followed = 0;
 
       _.each(followers, function(follower){
