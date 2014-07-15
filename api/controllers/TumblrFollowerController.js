@@ -23,6 +23,11 @@ var FOLLOWER_API_LIMIT = 20;
 function updateFollower(res, users, index, offset, total, next){
   var user = users[index];
 
+  console.log('index: ' + index);
+  console.log('users.length: ' + users.length);
+  console.log('\n\n\n\nuser:');
+  console.dir(user);
+
   TumblrFollower.findOne({ name: user.name }).done(function(err, u){
     if(err) {
       console.log('error in findOne: ' + err);
