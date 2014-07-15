@@ -25,20 +25,7 @@ module.exports = {
     },
     following: {
       type: 'BOOLEAN'
-    },
-    timestame: {
-      type: 'TIME'
     }
-  },
-
-  beforeCreate: function(values, next){
-    console.log('values.createdAt: ');
-    console.log(values.createdAt);
-
-    //values.timestamp = new Date(values.createdAt).getTime();
-    //console.log('\n\n*******timestamp: '+ values.timestamp);
-
-    return next();
   }
 
 
