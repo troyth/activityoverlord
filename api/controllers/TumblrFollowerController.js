@@ -157,7 +157,7 @@ var tumblrFollowerController = {
       token_secret: 'VkQrDv7EBPAwCwPLCC4G6nK0yATmCeuV4TBNBrymdi3OEztXNv'
     });
 
-    updateAllFollowers(20, 0);
+    updateAllFollowers(res, 0);
 
 
   }
