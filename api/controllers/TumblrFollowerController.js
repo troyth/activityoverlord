@@ -136,22 +136,10 @@ var tumblrFollowerController = {
 
   'index': function(req, res){
 
-    var tumblr = require('tumblr.js');
+    TumblrFollow.find().done(function totalFollowers(err, followers){
 
-    tumblrClient = tumblr.createClient({
-      consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
-      consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
-      token: 'dMwGcfLnaQ41Cb6GDQOD0CCZdEr82p5lvAbR2ltnDMl7rRS1Gs',
-      token_secret: 'VkQrDv7EBPAwCwPLCC4G6nK0yATmCeuV4TBNBrymdi3OEztXNv'
-    });
+      res.view({ followers: followers })
 
-    tumblrClient.followers('theenergyissue', function (err, data) {
-      console.log('followers data:');
-      console.dir(data);
-
-      var followers = data.total_users;
-
-      res.view({title: 'Tumblr', followers: followers, name: "Weekly Following Goal" });
     });
 
   },
