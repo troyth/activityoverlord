@@ -16,96 +16,30 @@
  */
 
 
-var tumblr = require('tumblr.js'),
-    passport = require('passport'),
-    util = require('util'),
-    TumblrStrategy = require('passport-tumblr').Strategy;
+var tumblrController = {
 
+  'followers': function(req, res){
 
-var client;
+    var tumblr = require('tumblr.js');
 
-var TUMBLR_CONSUMER_KEY = 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
-    TUMBLR_CONSUMER_SECRET = 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29';
-
-
-passport.use(new TumblrStrategy({
-  consumerKey: TUMBLR_CONSUMER_KEY,
-  consumerSecret: TUMBLR_CONSUMER_SECRET,
-  callbackURL: "http://analytics.theenergyissue.com/tumblr/authcallback"
-},
-function(token, tokenSecret, profile, done) {
-  console.log('callback');
-
-  tumblr.createClient({
-    consumer_key: TUMBLR_CONSUMER_KEY,
-    consumer_secret: TUMBLR_CONSUMER_SECRET,
-    token: token,
-    token_secret: tokenSecret
-  });
-
-  console.log('testing callback finished');
-
-
-}));
-
-module.exports = {
-
-  // This loads the track new blog page --> new.ejs
-  'new': function(req, res) {
-    res.view();
-  },
-
-  create: function(req, res, next) {
-
-    console.log('create tumblr with hostname: ' + req.param('hostname'));
-
-    var tumblrObj = {
-      hostname: req.param('hostname')
-    }
-
-    res.redirect('/tumblr/auth');
-
-    console.log('pass.auth() should have been called');
-  },
-
-  auth: function(req, res, next){
-
-    console.log('redirected');
-
-    passport.authenticate('tumblr');
-  },
-
-
-  // render the profile view (e.g. /views/show.ejs)
-  show: function(req, res, next) {
-    Tumblr.findOne(req.param('id'), function foundTumblr(err, tumblr) {
-      if (err) return next(err);
-      if (!tumblr) return next();
-
-
-      client.userInfo(function (err, data) {
-        if(err){
-          console.log(err);
-        }else{
-          data.blogs.forEach(function (blog) {
-              console.log(blog.name);
-          });
-
-          res.view({
-            tumblr: tumblr
-          });
-        }
-      });
+    var client = tumblr.createClient({
+      consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
+      consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
+      token: 'dMwGcfLnaQ41Cb6GDQOD0CCZdEr82p5lvAbR2ltnDMl7rRS1Gs',
+      token_secret: 'VkQrDv7EBPAwCwPLCC4G6nK0yATmCeuV4TBNBrymdi3OEztXNv'
     });
-  },
 
-  authcallback: function(req, res, next){
-    console.log('authcallback()');
+    tumblrClient.followers('theenergyissue', function (err, data) {
+      console.log('followers data:');
+      console.dir(data);
 
-    passport.authenticate('tumblr', { failureRedirect: '/tumblr/new' });
+      var followers = data.total_users;
 
-    res.view();
+      res.view({title: 'Tumblr', followers: followers, name: "Weekly Following Goal" });
+    });
+
   }
 
-
 };
+
+module.exports = tumblrController;
