@@ -56,6 +56,10 @@ function updateFollower(res, users, index, offset, total, next){
             updateFollower(res, users, index, offset, total, next);
           }else{
             // if still more to fetch, keep going
+            console.log('\n\n\n\n\n\n\n----------------------');
+            var x = offset + users.length;
+            console.log('offset + users.length: ' + x);
+            console.log('total: ' + total);
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
@@ -64,6 +68,7 @@ function updateFollower(res, users, index, offset, total, next){
               }
             }else{
               console.log('RETURNING 200');
+              offset = offset + FOLLOWER_API_LIMIT;
               next(res, offset);
               res.send(200);
             }
@@ -85,6 +90,10 @@ function updateFollower(res, users, index, offset, total, next){
             updateFollower(res, users, index, offset, total, next);
           }else{
             // if still more to fetch, keep going
+            console.log('\n\n\n\n\n\n\n----------------------');
+            var x = offset + users.length;
+            console.log('offset + users.length: ' + x);
+            console.log('total: ' + total);
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
