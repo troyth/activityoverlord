@@ -25,6 +25,9 @@ module.exports = {
     },
     following: {
       type: 'BOOLEAN'
+    },
+    followedAt: {
+      type: 'DATE'
     }
 
   }

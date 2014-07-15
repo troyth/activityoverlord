@@ -9,6 +9,7 @@
       <th>ID</th>
       <th>Name</th>
       <th>URL</th>
+      <th>Follwed Ad</th>
       <th>Following</th>
       <th></th>
     </tr>
@@ -19,6 +20,7 @@
       <td><%= follower.id %></td>
       <td><%= follower.name %></td>
       <td><%= follower.url %></td>
+      <td><%= follower.createdAt %></td>
       <td><%= follower.following %></td>
 
       <td><a href="/tumblrfollower/follow/<%= follower.id %>" class="btn btn-sm btn-primary">Follow</a></td>
