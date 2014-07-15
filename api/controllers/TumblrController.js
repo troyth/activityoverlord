@@ -22,7 +22,7 @@ var tumblrController = {
 
     var tumblr = require('tumblr.js');
 
-    var client = tumblr.createClient({
+    var tumblrClient = tumblr.createClient({
       consumer_key: 'AlGQ1aWiD6D2M5alqTbeM5Et7wQR0e9OvixCtAT9YpDqKCK3bI',
       consumer_secret: 'AfRbdjWLOzcghJJr7u4YFjYTIMT9hPwq9Eb8n4BqwOim5UtV29',
       token: 'dMwGcfLnaQ41Cb6GDQOD0CCZdEr82p5lvAbR2ltnDMl7rRS1Gs',
