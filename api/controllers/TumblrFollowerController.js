@@ -41,6 +41,8 @@ var tumblrFollowerController = {
 
   'update': function(req, res){
 
+    console.log('-------update-------');
+
     var tumblr = require('tumblr.js');
 
     var tumblrClient = tumblr.createClient({
@@ -70,7 +72,7 @@ var tumblrFollowerController = {
 
       });
 
-      
+
 
       res.send(200);
     });
