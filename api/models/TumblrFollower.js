@@ -32,9 +32,11 @@ module.exports = {
   },
 
   beforeUpdate: function(values, next){
+    console.log('values.createdAt: ');
+    console.log(values.createdAt);
 
-    values.timestamp = new Date(values.createdAt).getTime();
-    console.log('\n\n*******timestamp: '+ values.timestamp);
+    //values.timestamp = new Date(values.createdAt).getTime();
+    //console.log('\n\n*******timestamp: '+ values.timestamp);
 
     return next();
   }
