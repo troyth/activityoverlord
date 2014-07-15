@@ -22,14 +22,6 @@ module.exports.adapters = {
     module   : 'sails-mongo',
     url: process.env.DB_URL,
     schema   : true
-  },
-
-  twitter: {
-    module: 'sails-twitter',
-    consumerKey: 'nT9b8a1XJO0pqLjQ',
-    consumerSecret: '7IeoQELu4isOkYKYvbV5rAbAHHU4GpIV2o8asiI',
-    accessToken: '631994755-FKBfx8TusaXklpUmMXhtqp5PYJjcwVWQGaBBO',
-    accessTokenSecret: 'OOz4leiljjaAUIOwlS8uipe62qZL9ThZ796MA9GbDF'
   }
 
   // // Persistent adapter for DEVELOPMENT ONLY
