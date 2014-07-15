@@ -61,7 +61,9 @@ function updateFollower(users, index, next){
           if(users.length > index){
             updateFollower(users, index, next);
           }else{
-            next();
+            if(typeof next != 'undefined'){
+              next();
+            }
           }
         });
       }
@@ -114,7 +116,7 @@ var tumblrFollowerController = {
       var followers = data.total_users;
 
 
-      updateFollower(data.users, 0, null);
+      updateFollower(data.users, 0);
 
 
 
