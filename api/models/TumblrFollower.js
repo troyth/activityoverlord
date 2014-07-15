@@ -31,7 +31,7 @@ module.exports = {
     }
   },
 
-  beforeUpdate: function(values, next){
+  beforeCreate: function(values, next){
     console.log('values.createdAt: ');
     console.log(values.createdAt);
 
