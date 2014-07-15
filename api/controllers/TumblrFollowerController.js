@@ -59,9 +59,11 @@ function updateFollower(res, users, index, offset, total, next){
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
+                console.log('CALLING NEXT()');
                 next(res, offset);
               }
             }else{
+              console.log('RETURNING 200');
               res.send(200);
             }
           }
@@ -85,9 +87,11 @@ function updateFollower(res, users, index, offset, total, next){
             if( (offset + users.length) < total ){
               offset = offset + FOLLOWER_API_LIMIT;
               if(typeof next != 'undefined'){
+                console.log('CALLING NEXT()');
                 next(res, offset);
               }
             }else{
+              console.log('RETURNING 200');
               res.send(200);
             }
           }
@@ -100,6 +104,8 @@ function updateFollower(res, users, index, offset, total, next){
 
 function updateAllFollowers(res, offset){
 
+  console.log('\n\n\n-------updateAllFollowers-------\n\n\n');
+
   var options = {
     limit: FOLLOWER_API_LIMIT,
     offset: offset || 0
@@ -110,11 +116,6 @@ function updateAllFollowers(res, offset){
     if(data.total_users > (data.users.length + offset)){
       updateFollower(res, data.users, 0, offset, data.users.length, updateAllFollowers);
     }
-
-
-
-
-
 
   });
 
