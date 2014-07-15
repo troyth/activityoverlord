@@ -53,7 +53,7 @@ function updateFollower(res, users, index, offset, total, next){
           index++;
           if(users.length > index){
             console.log('updated follower, moving on');
-            updateFollower(users, index, offset, total, next);
+            updateFollower(res, users, index, offset, total, next);
           }else{
             // if still more to fetch, keep going
             if( (offset + users.length) < total ){
@@ -79,7 +79,7 @@ function updateFollower(res, users, index, offset, total, next){
           index++;
           if(users.length > index){
             console.log('created follower, moving on');
-            updateFollower(users, index, offset, total, next);
+            updateFollower(res, users, index, offset, total, next);
           }else{
             // if still more to fetch, keep going
             if( (offset + users.length) < total ){
