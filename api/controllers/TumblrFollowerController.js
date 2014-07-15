@@ -49,8 +49,12 @@ function updateFollower(users, index, next){
         });
       }else{
         // not already in DB, so add it
-        TumblrFollower.create(fetchedUserObj, function userCreated(err, newUser) {
-          if(err) console.log('error trying to create TumblrFollower: '+ err);
+        TumblrFollower.create(fetchedUserObj, function tumblrFollowerCreated(err, newUser) {
+          if(err){
+            console.log('error trying to create TumblrFollower: '+ err);
+            console.dir(err);
+          }
+
 
           index++;
           if(users.length > index){
